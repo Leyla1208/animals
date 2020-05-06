@@ -197,8 +197,7 @@ def text1():
 def text2():
     news_list = open("info/кошки/Экзотическая кошка/Текст.txt").readlines()
     text = ''.join(news_list)
-    pict = 'info/кошки/Экзотическая кошка/Картинка.jpg'
-    return render_template('Экзотическая_кошка.html', text=text, picture=pict)
+    return render_template('Экзотическая_кошка.html', text=text)
 
 
 @app.route('/cats/Русская_голубая')
