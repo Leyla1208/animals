@@ -306,5 +306,13 @@ def settings_page():
     return resp
 
 
+@app.route('/all_feedbacks')
+@login_required
+def feedbacks():
+    session = db_session.create_session()
+    feedbacks = session.query(Feedback)
+    return render_template("all_feedbacks.html", feedbacks=feedbacks)
+
+
 if __name__ == '__main__':
     app.run()
