@@ -1,0 +1,16 @@
+{% extends "main_base.html" %}
+
+{% block content %}
+<h1 align="center">Отзывы</h1>
+{% for feedback in feedbacks%}
+<div class="container border border-primary" style="background: #D0FEFE; border-radius: 15px; margin-top: 60px; padding: 15px">
+    <h2>{{feedback.title}}</h2>
+    <div>
+        {{feedback.content}}
+    </div>
+    <div>
+        Дата создания - {{feedback.created_date}}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
