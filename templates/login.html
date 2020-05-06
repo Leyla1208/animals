@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block base_content %}
+
+    <form action="" method="POST">
+
+        {{ form.csrf_token() }}
+
+        <div class="container border border-primary" style="background: #D0FEFE; border-radius: 15px; margin-top: 60px; padding: 15px">
+            <div class="form-row">
+                <div class="col">
+                {{ form.login(class="form-control", placeholder=form.login.label.text) }}
+                {% for error in form.login.errors %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.password(class="form-control", placeholder=form.password.label.text) }}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    <div class="from-check">
+                        {{ form.remember_me(class="") }}
+                        {{ form.remember_me.label(class="form-check-label") }}
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    <a href="/register" class="btn btn-secondary btn-block">Зарегистрироватья</a>
+                </div>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        </div>
+
+    </form>
+
+{% endblock %}

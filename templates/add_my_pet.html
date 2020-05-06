@@ -1,0 +1,66 @@
+{% extends "main_base.html" %}
+
+{% block base_content %}
+
+    <form action="" method="POST">
+
+        {{ form.csrf_token() }}
+
+        <div class="container border border-primary" style="background: #D0FEFE; border-radius: 10px; margin-top: 50px; padding: 10px">
+            <div class="form-row">
+                <div class="col">
+                    {{ form.pet_name(class="form-control", placeholder=form.pet_name.label.text) }}
+                    {% for error in form.pet_name.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.age(class="form-control", placeholder=form.age.label.text) }}
+                    {% for error in form.age.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.type(class="form-control", placeholder=form.type.label.text) }}
+                    {% for error in form.type.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+            <div class="form-row">
+                <div class="col">
+                    {{ form.poroda(class="form-control", placeholder=form.poroda.label.text) }}
+                    {% for error in form.poroda.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </div>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        </div>
+
+    </form>
+
+{% endblock %}

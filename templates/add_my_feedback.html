@@ -1,0 +1,46 @@
+{% extends "main_base.html" %}
+
+{% block base_content %}
+
+    <form action="" method="POST">
+
+        {{ form.csrf_token() }}
+
+        <div class="container border border-primary" style="background: #D0FEFE; border-radius: 10px; margin-top: 50px; padding: 10px">
+            <div class="form-row">
+                <div class="col">
+                    {{ form.title(class="form-control", placeholder=form.title.label.text) }}
+                    {% for error in form.title.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.content(class="form-control", placeholder=form.content.label.text) }}
+                    {% for error in form.content.errors %}
+                        <div class="alert alert-danger">{{error}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </div>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        </div>
+
+    </form>
+
+{% endblock %}
