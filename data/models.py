@@ -2,13 +2,14 @@ import datetime
 
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import orm
 
 from .db_session import Base_orm
 
 
-class User(Base_orm, UserMixin):
+class User(Base_orm, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
     id = Column(Integer,
@@ -31,7 +32,7 @@ class User(Base_orm, UserMixin):
         return check_password_hash(self.hashed_password, password)
 
 
-class Pet(Base_orm):
+class Pet(Base_orm, SerializerMixin):
     __tablename__ = 'pets'
 
     id = Column(Integer,
@@ -61,7 +62,7 @@ class Pet(Base_orm):
         self.poroda = poroda
 
 
-class Feedback(Base_orm):
+class Feedback(Base_orm, SerializerMixin):
     __tablename__ = 'feedbacks'
 
     id = Column(Integer,
@@ -78,8 +79,9 @@ class Feedback(Base_orm):
                      ForeignKey("users.id"))
     user = orm.relation('User', backref='feedbacks')
 
-    def __init__(self, title, content, create_date):
+    def __init__(self, title, content, created_date, user_id):
         self.pet_name = title
         self.type = content
-        self.age = create_date
+        self.user_id = user_id
+        self.created_date = created_date
 

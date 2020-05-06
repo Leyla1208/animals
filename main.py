@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect,  request
+from flask import Flask, render_template, redirect, request, make_response, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from flask_restful import reqparse, abort, Api, Resource
 
 from data.models import User, Pet, Feedback
 from forms import LoginForm, RegistrationForm, AddFeedback, AddPet, SettingsForm, Main, Profile, Cats, Dogs, Birds
@@ -12,6 +13,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'animal_site'
 login_manager = LoginManager(app)
 login_manager.login_view = '/login'
+api = Api(app)
+
+#api.add_resource(feedbacks_resources.ListResource, '/api/v2/news')
+#api.add_resource(feedbacks_resources.Resource, '/api/v2/news/<int:news_id>')
 
 
 @login_manager.user_loader
@@ -20,6 +25,13 @@ def load_user(user_id):
     user = session.query(User).filter(User.id == user_id).first()
     session.close()
     return user
+
+
+def abort_if_feedbacks_not_found(id):
+    session = db_session.create_session()
+    feedbacks = session.query(Feedback).get(id)
+    if not feedbacks:
+        abort(404, message=f"Отзыв {id} не найден.")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -310,8 +322,51 @@ def settings_page():
 @login_required
 def feedbacks():
     session = db_session.create_session()
-    feedbacks = session.query(Feedback)
+    feedbacks = session.query(Feedback).all()
     return render_template("all_feedbacks.html", feedbacks=feedbacks)
+
+
+parser = reqparse.RequestParser()
+parser.add_argument('title', required=True)
+parser.add_argument('content', required=True)
+parser.add_argument('user_id', required=True, type=int)
+
+
+class ListResource(Resource):
+    def get(self):
+        session = db_session.create_session()
+        feedbacks = session.query(Feedback).all()
+        return jsonify({'news': [item.to_dict(
+            only=('title', 'content', 'user.name')) for item in feedbacks]})
+
+    def post(self):
+        args = parser.parse_args()
+        session = db_session.create_session()
+        feedbacks = Feedback(
+            title=args['title'],
+            content=args['content'],
+            user_id=args['user_id']
+        )
+        session.add(feedbacks)
+        session.commit()
+        return jsonify({'success': 'OK'})
+
+
+class Resource(Resource):
+    def get(self, news_id):
+        abort_if_feedbacks_not_found(id)
+        session = db_session.create_session()
+        feedbacks = session.query(Feedback).get(id)
+        return jsonify({'feedbacks': feedbacks.to_dict(
+            only=('title', 'content', 'user_id'))})
+
+    def delete(self, news_id):
+        abort_if_feedbacks_not_found(id)
+        session = db_session.create_session()
+        feedbacks = session.query(Feedback).get(id)
+        session.delete(feedbacks)
+        session.commit()
+        return jsonify({'success': 'OK'})
 
 
 if __name__ == '__main__':
