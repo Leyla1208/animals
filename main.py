@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, make_response, jsonify
+from flask import Flask, render_template, redirect, request, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_restful import reqparse, abort, Api, Resource
