@@ -152,10 +152,11 @@ def add_pet():
                   age=form.age.data,
                   type=form.type.data,
                   poroda=form.poroda.data)
+        session.add(current_user)
         session.merge(current_user)
         current_user.pets.append(pet)
         session.commit()
-        return redirect('/my_pets')
+        return redirect('/profile/my_pets')
     resp = render_template('add_my_pet.html', title='Добавить моего питомца', form=form)
     return resp
 
@@ -168,6 +169,7 @@ def add_feedback():
         feedback = Feedback(title=form.title.data,
                             content=form.content.data)
         session = db_session.create_session()
+
         current_user.news.append(feedback)
         session.merge(current_user)
         session.commit()
@@ -179,7 +181,7 @@ def add_feedback():
 @app.route('/cats/Персидская_кошка')
 @login_required
 def text():
-    news_list = open("info/кошки/Персидская кошка/Текст.txt").readlines()
+    news_list = open("static/info/кошки/Персидская кошка/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Персидская_кошка.html', text=text)
 
@@ -187,7 +189,7 @@ def text():
 @app.route('/cats/Регдолл')
 @login_required
 def text1():
-    news_list = open("info/кошки/Рэгдолл/Текст.txt").readlines()
+    news_list = open("static/info/кошки/Рэгдолл/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Регдолл.html', text=text)
 
@@ -195,7 +197,7 @@ def text1():
 @app.route('/cats/Экзотическая_кошка')
 @login_required
 def text2():
-    news_list = open("info/кошки/Экзотическая кошка/Текст.txt").readlines()
+    news_list = open("static/info/кошки/Экзотическая кошка/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Экзотическая_кошка.html', text=text)
 
@@ -203,7 +205,7 @@ def text2():
 @app.route('/cats/Русская_голубая')
 @login_required
 def text3():
-    news_list = open("info/кошки/Русская голубая/Текст.txt").readlines()
+    news_list = open("static/info/кошки/Русская голубая/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Русская_голубая.html', text=text)
 
@@ -211,7 +213,7 @@ def text3():
 @app.route('/cats/Мейн-кун')
 @login_required
 def text4():
-    news_list = open("info/кошки/Мейн-кун/Текст.txt").readlines()
+    news_list = open("static/info/кошки/Мейн-кун/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Мейн_кун.html', text=text)
 
@@ -219,7 +221,7 @@ def text4():
 @app.route('/dogs/Бордер_колли')
 @login_required
 def text5():
-    news_list = open("info/собаки/Бордер-колли/Текст.txt").readlines()
+    news_list = open("static/info/собаки/Бордер-колли/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Бордер_колли.html', text=text)
 
@@ -227,7 +229,7 @@ def text5():
 @app.route('/dogs/Доберман')
 @login_required
 def text6():
-    news_list = open("info/собаки/Доберман/Текст.txt").readlines()
+    news_list = open("static/info/собаки/Доберман/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Доберман.html', text=text)
 
@@ -235,7 +237,7 @@ def text6():
 @app.route('/dogs/Кане_корсо')
 @login_required
 def text7():
-    news_list = open("info/собаки/Кане корсо/Текст.txt").readlines()
+    news_list = open("static/info/собаки/Кане корсо/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Кане_корсо.html', text=text)
 
@@ -243,7 +245,7 @@ def text7():
 @app.route('/dogs/Немецкая_овчарка')
 @login_required
 def text8():
-    news_list = open("info/собаки/Немецкая овчарка/Текст.txt").readlines()
+    news_list = open("static/info/собаки/Немецкая овчарка/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Немецкая_овчарка.html', text=text)
 
@@ -251,7 +253,7 @@ def text8():
 @app.route('/dogs/Хаски')
 @login_required
 def text9():
-    news_list = open("info/собаки/Хаски/Текст.txt").readlines()
+    news_list = open("static/info/собаки/Хаски/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Хаски.html', text=text)
 
@@ -259,7 +261,7 @@ def text9():
 @app.route('/birds/Волнистые_попугаи')
 @login_required
 def text10():
-    news_list = open("info/птицы/Волнистые попугаи/Текст.txt").readlines()
+    news_list = open("static/info/птицы/Волнистые попугаи/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Волнистые_попугаи.html', text=text)
 
@@ -267,7 +269,7 @@ def text10():
 @app.route('/birds/Корелла')
 @login_required
 def text11():
-    news_list = open("info/птицы/Корелла/Текст.txt").readlines()
+    news_list = open("static/info/птицы/Корелла/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Корелла.html', text=text)
 
@@ -275,7 +277,7 @@ def text11():
 @app.route('/birds/Жако')
 @login_required
 def text12():
-    news_list = open("info/птицы/Жако/Текст.txt").readlines()
+    news_list = open("static/info/птицы/Жако/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Жако.html', text=text)
 
@@ -283,7 +285,7 @@ def text12():
 @app.route('/birds/Какаду')
 @login_required
 def text13():
-    news_list = open("info/птицы/Какаду/Текст.txt").readlines()
+    news_list = open("static/info/птицы/Какаду/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Какаду.html', text=text)
 
@@ -291,7 +293,7 @@ def text13():
 @app.route('/birds/Сова')
 @login_required
 def text14():
-    news_list = open("info/птицы/Сова/Текст.txt").readlines()
+    news_list = open("static/info/птицы/Сова/Текст.txt").readlines()
     text = ''.join(news_list)
     return render_template('Сова.html', text=text)
 
