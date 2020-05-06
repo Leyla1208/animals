@@ -171,6 +171,7 @@ def add_feedback():
         feedback = Feedback(title=form.title.data,
                             content=form.content.data)
         session = db_session.create_session()
+        session.add(current_user)
 
         current_user.news.append(feedback)
         session.merge(current_user)
