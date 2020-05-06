@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, redirect, request, jsonify
 from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
@@ -371,4 +373,5 @@ class Resource(Resource):
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
